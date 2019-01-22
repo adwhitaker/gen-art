@@ -21,17 +21,19 @@ class Circle {
             this.width = this.width - 1
         }
 
+        fill(250, 33, this.width)
         ellipse(this.x, this.y, this.width, this.width)
     }
 }
 
-const MAX_WIDTH = 25
+const MAX_WIDTH = 50
 let circles = []
 
 function setup() {
     createCanvas(400, 400)
-    frameRate(20)
+    frameRate(10)
     noStroke()
+    colorMode(HSB, 360, 100, MAX_WIDTH)
 
     const interval = 25
     for (let i = 1; (i * interval) < height; i++) {
@@ -43,6 +45,6 @@ function setup() {
 }
 
 function draw() {
-    background('#6254A8')
+    background(250, 33, MAX_WIDTH / 2)
     circles.forEach(circle => circle.draw())
 }

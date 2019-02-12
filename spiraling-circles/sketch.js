@@ -1,7 +1,5 @@
 class Particle {
     constructor(x, y, radius, color) {
-        this.initialX = x
-        this.initialY = y
         this.x = x
         this.y = y
         this.radius = radius
@@ -43,10 +41,16 @@ let particles = []
 
 function setup() {
     createCanvas(800, 800)
-    const colors = ['steelblue', 'black', 'darkblue']
+    const colors = [
+        '#343838',
+        '#005F6B',
+        '#008C9E',
+        '#00B4CC',
+        '#00DFFC'
+    ]
 
-    for (let i = 0; i < 50; i++) {
-        const color = colors[[Math.floor(random(0, 3))]]
+    for (let i = 0; i < 100; i++) {
+        const color = colors[[Math.floor(random(0, 5))]]
         const radius = random(1, 3)
         particles.push(new Particle(height / 2, width / 2, radius, color))
     }

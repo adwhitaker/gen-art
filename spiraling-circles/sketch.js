@@ -25,12 +25,6 @@ class Particle {
     }
 
     draw(oldLocation) {
-        // Draw Circles
-        // noStroke()
-        // fill(this.color)
-        // ellipse(this.x, this.y, this.radius, this.radius)
-
-        // Draw line
         strokeWeight(this.radius)
         stroke(this.color)
         line(oldLocation.x, oldLocation.y, this.x, this.y)
@@ -58,7 +52,6 @@ function setup() {
 
 function draw() {
     background('rgba(255, 255, 255, 0.05)')
-    // background('white')
     particles.forEach(particle => particle.update())
 }
 

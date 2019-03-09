@@ -11,7 +11,6 @@ class Mover {
 
     update() {
         this.location.add(this.velocity)
-        console.log(this.location.x, this.velocity.x)
     }
 
     display() {

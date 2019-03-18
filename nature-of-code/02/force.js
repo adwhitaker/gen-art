@@ -29,17 +29,14 @@ class Mover {
 
     checkEdges() {
         if (this.position.x > width) {
-            console.log('go left')
             this.position.x = width;
             this.velocity.x *= -1;
         } else if (this.position.x < 0) {
             this.velocity.x *= -1;
             this.position.x = 0;
-            console.log('g right')
         }
 
         if (this.position.y > height) {
-            console.log('chanign')
             this.velocity.y *= -1;
             this.position.y = height;
         }

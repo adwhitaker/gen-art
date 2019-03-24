@@ -6,10 +6,10 @@ class Mover {
     mass;
 
     constructor() {
-        this.position = createVector(random(0, width), random(0, height));
+        this.position = createVector(20, 0);
         this.velocity = createVector(0, 0);
         this.acceleration = createVector(0, 0);
-        this.mass = random(0.1, 2);
+        this.mass = 1
     }
 
     applyForce(force) {
@@ -21,6 +21,7 @@ class Mover {
         this.velocity.add(this.acceleration);
         this.position.add(this.velocity);
         this.acceleration.mult(0);
+        this.velocity.limit(5)
     }
 
     draw() {
@@ -31,17 +32,11 @@ class Mover {
     }
 
     checkEdges() {
-        if (this.position.x > width) {
-            this.position.x = width;
-            this.velocity.x *= -1;
-        } else if (this.position.x < 0) {
-            this.velocity.x *= -1;
-            this.position.x = 0;
-        }
-
         if (this.position.y > height) {
             this.velocity.y *= -1;
-            this.position.y = height;
+        } else if (this.position.y < 0) {
+            this.velocity.y *= -1;
+            this.position.y = 0;
         }
     }
 
@@ -52,27 +47,31 @@ let movers = []
 function setup() {
     createCanvas(600, 400)
 
-    for(let i = 0; i < 1; i++) {
+    for (let i = 0; i < 1; i++) {
         movers.push(new Mover())
     }
 }
 
 function draw() {
     background('white')
-    const wind = createVector(0, 0.2)
-    const c = -0.01;
-
+    stroke('black')
+    line(0, height / 2 + 15, width, height / 2 + 15)
     movers.forEach((mover) => {
+        mover.applyForce(createVector(0, 0.1))
 
-        wind.mult(mover.mass)
-        mover.applyForce(wind)
+        
+        if (keyIsPressed) {
+            const drag = mover.velocity.copy();
+            drag.normalize()
+            const c = -0.03
+            const speed = mover.velocity.copy()
 
-        const friction = mover.velocity.copy();
-        friction.normalize()
-        friction.mult(-1)
-        friction.mult(c)
+            console.log('speed', speed.mag())
+            drag.mult((c * speed.mag() * speed.mag()))
+            console.log(drag)
+            mover.applyForce(drag)
+        }
 
-        mover.applyForce(friction)
 
         mover.update()
         mover.checkEdges()

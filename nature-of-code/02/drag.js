@@ -58,8 +58,7 @@ function draw() {
     line(0, height / 2 + 15, width, height / 2 + 15)
     movers.forEach((mover) => {
         mover.applyForce(createVector(0, 0.1))
-
-        
+       
         if (keyIsPressed) {
             const drag = mover.velocity.copy();
             drag.normalize()

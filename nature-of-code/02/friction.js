@@ -34,8 +34,6 @@ class Mover {
     checkEdges() {
         if (this.position.x > width) {
             this.position.x = 0;
-
-            // this.velocity.x *= -1;
         } else if (this.position.x < 0) {
             this.velocity.x *= -1;
             this.position.x = 0;

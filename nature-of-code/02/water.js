@@ -1,13 +1,29 @@
 
 class Water {
     constructor() {
+        this.position = createVector(0, height / 2)
+        this.width = width
+        this.height = height / 2
+        this.c = -0.03
+    }
 
+    getForce(mover) {
+        if (mover.position.y < this.height) {
+            return createVector(0, 0)
+        }
+
+        const drag = mover.velocity.copy()
+        drag.normalize()
+        const speed = mover.velocity.copy()
+        drag.mult((this.c * speed.magSq()))
+        const f = p5.Vector.div(drag, mover.mass)
+        return f
     }
 
     draw() {
         noStroke()
         fill('lightsteelblue')
-        rect(0, height / 2, width, height / 2)
+        rect(this.position.x, this.position.y, this.width, this.height)
     }
 }
 
@@ -20,16 +36,15 @@ class Mover {
     isStopped = false;
     height;
 
-    constructor(x, y, height = 10) {
+    constructor(x, y, mass) {
         this.position = createVector(x, y);
         this.velocity = createVector(0, 0);
         this.acceleration = createVector(0, 0);
-        this.mass = height / 10
-        this.height = height
+        this.mass = mass
+        this.height = mass * 10
     }
 
     applyForce(force) {
-        // const f = p5.Vector.div(force, this.mass)
         this.acceleration.add(force)
     }
 
@@ -65,22 +80,22 @@ function setup() {
     water = new Water()
 
     for (let i = 0; i < 5; i++) {
-        const height = random(0, 100)
-
+        const mass = random(0, 10)
         const x = i === 0 ? 50 : i * 150
-        movers.push(new Mover(x, 50, random(0, 100)))
+        movers.push(new Mover(x, 50, mass))
     }
 }
 
 function draw() {
     background('white')
-
     water.draw()
 
     const gravity = createVector(0, 0.02)
 
     movers.forEach(mover => {
         mover.applyForce(gravity)
+        const waterFocer = water.getForce(mover)
+        mover.applyForce(waterFocer)
         mover.update()
         mover.edges()
         mover.draw()
